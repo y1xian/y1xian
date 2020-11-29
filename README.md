@@ -17,7 +17,42 @@ Here are some ideas to get you started:
 
 
 
-### 平平无奇的Android开发
+### 平平无奇的Android开发，~~已被现实击毙~~
+
+#### Android
+- [ ] Android 入门
+  - [x] ~~四大组件~~
+- [ ] ~~Android 入坟~~
+
+#### IOS
+- [x] 下载XCode
+- [x] 了解Swift
+- [ ] ~~IOS 入门~~
+
+#### 后台
+- [x] Idea + Spring Boot
+- [x] REST API
+- [x] 部署应用
+
+#### Flutter
+- [x] 开发环境
+- [x] ~~下了一堆视频~~
+- [x] Dart 语言入门
+  - [x] 了解Dart
+- [ ] Flutter 入门
+  - [x] Widgets 入门
+  - [ ] !!!
+
+#### 小程序
+- [x] 搭建开发环境
+- [ ] 小程序入门
+  - [x] 运行demo
+  - [x] wxml+wxss写出基本页面
+  - [ ] !!!
+
+#### 光荣而伟大的 **鸿蒙开发**
+- [x] 知道这件事就行
+- [x] 止步 
 
 ---
 

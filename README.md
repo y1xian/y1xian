@@ -17,11 +17,13 @@ Here are some ideas to get you started:
 
 
 
-### 平平无奇的Android开发，~~已被现实击毙~~
+### 平平无奇的Android开发，~~已被现实击毙~~努力成长中
 
 #### Android
-- [ ] Android 入门
-  - [x] ~~四大组件~~
+- [x] Android 入门
+  - [x] ~~有手就行~~
+- [x] 开发框架
+- [x] 工具整合
 - [ ] ~~Android 入坟~~
 
 #### IOS
@@ -31,6 +33,7 @@ Here are some ideas to get you started:
 
 #### 后台
 - [x] Idea + Spring Boot
+- [x] MySql
 - [x] REST API
 - [x] 部署应用
 
@@ -51,8 +54,7 @@ Here are some ideas to get you started:
   - [ ] !!!
 
 #### 光荣而伟大的 **鸿蒙开发**
-- [x] 知道这件事就行
-- [x] 止步 
+- [x] 注册成为鸿蒙开发者 
 
 ---
 

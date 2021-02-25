@@ -20,22 +20,28 @@ Here are some ideas to get you started:
 ### 平平无奇的Android开发，~~已被现实击毙~~努力成长中
 
 #### Android
+- [x] Java 入门
 - [x] Android 入门
   - [x] ~~有手就行~~
 - [x] 开发框架
 - [x] 工具整合
+- [x] 发布jitpack
 - [ ] ~~Android 入坟~~
+- [ ] ~~卸载Android Studio
 
 #### IOS
 - [x] 下载XCode
-- [x] 了解Swift
+- [x] Swift 入门
 - [ ] ~~IOS 入门~~
+- [ ] ~~卸载Xcode
 
 #### 后台
 - [x] Idea + Spring Boot
 - [x] MySql
 - [x] REST API
 - [x] 部署应用
+- [x] Linux 入门
+- [ ] 
 
 #### Flutter
 - [x] 开发环境
@@ -53,8 +59,18 @@ Here are some ideas to get you started:
   - [x] wxml+wxss写出基本页面
   - [ ] !!!
 
+#### uni-app
+- [x] 搭建开发环境
+- [x] vue 入门
+- [x] nvue 入门
+- [x] 原生插件开发、互调
+- [ ] 多端打包
+
 #### 光荣而伟大的 **鸿蒙开发**
-- [x] 注册成为鸿蒙开发者 
+- [x] 注册成为鸿蒙开发者
+- [ ] 第一行代码
+
+
 
 ---
 

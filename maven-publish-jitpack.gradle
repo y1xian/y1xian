@@ -1,5 +1,6 @@
 // 发布配置 https://developer.android.google.cn/studio/build/maven-publish-plugin?hl=en#groovy
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 // ----------------------- 在gradle.properties下配置
 
@@ -83,30 +84,58 @@ task sourceJar(type: Jar) {
 
 afterEvaluate {
     publishing {
-        if (enableLocalMaven) {
-            // 本地测试配置
-            // 发布配置
-            publications {
-                // 起个啥名都行，发布路径 Gradle/Tasks/publishing/publish
-                debug(MavenPublication) {
-                    from components.debug
-                    version = _version
-                    groupId = "$_groupId.$_groupName"
+        if (hasAndroidPlugin || _packaging == 'aar') {
+            if (enableLocalMaven) {
+                // 本地测试配置
+                // 发布配置
+                publications {
+                    // 起个啥名都行，发布路径 Gradle/Tasks/publishing/publish
+                    debug(MavenPublication) {
+                        from components.debug
+                        version = _version
+                        groupId = "$_groupId.$_groupName"
+                    }
+                }
+                // 发布到本地仓
+                repositories {
+                    maven {
+                        url = uri(_localPath)
+                        println("===> android 发布到本地仓 $_localPath")
+                    }
+                }
+            } else {
+                // 发布到 jitpack.io
+                publications {
+                    release(MavenPublication) {
+                        from components.release
+                        groupId = _groupId
+                    }
                 }
             }
-            // 发布到本地仓
-            repositories {
-                maven {
-                    url = uri(_localPath)
-                    println("===> 发布到本地仓 $_localPath")
+        } else if (hasJavaPlugin || _packaging == 'jar') {
+            if (enableLocalMaven) {
+                // 本地测试配置
+                publications {
+                    debug(MavenPublication) {
+                        from components.java
+                        version = _version
+                        groupId = "$_groupId.$_groupName"
+                    }
                 }
-            }
-        } else {
-            // 发布到 jitpack.io
-            publications {
-                release(MavenPublication) {
-                    from components.release
-                    groupId = _groupId
+                // 发布到本地仓
+                repositories {
+                    maven {
+                        url = uri(_localPath)
+                        println("===> java 发布到本地仓 $_localPath")
+                    }
+                }
+            } else {
+                // 发布到 jitpack.io
+                publications {
+                    release(MavenPublication) {
+                        from components.java
+                        groupId = _groupId
+                    }
                 }
             }
         }

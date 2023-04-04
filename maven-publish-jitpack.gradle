@@ -58,6 +58,13 @@ def enableLocalMaven = {
 println("===> 版本号 $_version $isSnapshot")
 println("===> 是否开启本地maven $enableLocalMaven $_localPath")
 
+if (hasJavaPlugin) {
+    java {
+        withJavadocJar()
+        withSourcesJar()
+    }
+}
+
 // -----------------------
 
 // 不使用缓存，使用仓库中最新的包

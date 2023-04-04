@@ -75,18 +75,6 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
-task sourceJar(type: Jar) {
-    if (hasAndroidPlugin()) {
-        println "===> Android"
-        from android.sourceSets.main.java.srcDirs
-        archiveClassifier = 'sources'
-    } else if (hasJavaPlugin()) {
-        println "===> Java"
-        from sourceSets.main.allSource
-        archiveClassifier = 'sources'
-    }
-}
-
 // ----------------------- 发布maven配置
 
 afterEvaluate {

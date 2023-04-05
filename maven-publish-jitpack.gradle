@@ -1,3 +1,4 @@
+// 拉取不下则复制本地引用 apply from: rootProject.file('maven-publish-jitpack.gradle')
 // 发布配置 https://developer.android.google.cn/studio/build/maven-publish-plugin?hl=en#groovy
 apply plugin: 'maven-publish'
 

@@ -47,12 +47,7 @@ def isSnapshot = {
     return _version.endsWith("SNAPSHOT")
 }
 
-def enableLocalMaven = {
-    if (_localPath != '' || _localPath != null) {
-        return false
-    }
-    return isSnapshot
-}
+def enableLocalMaven = (_localPath != '/' && _localPath != '' && _localPath != null)
 println("===> 版本号 $_version $isSnapshot")
 println("===> 是否开启本地maven $enableLocalMaven $_localPath")
 
@@ -106,7 +101,7 @@ tasks.withType(JavaCompile) {
 afterEvaluate {
     publishing {
         if (hasAndroidPlugin) {
-            println("当前模块 $project , 发布aar")
+            println("当前模块 $project , 发布aar, $enableLocalMaven")
             if (enableLocalMaven) {
                 // 本地测试配置
                 // 发布配置
@@ -135,7 +130,7 @@ afterEvaluate {
                 }
             }
         } else if (hasJavaPlugin || _packaging == 'jar') {
-            println("当前模块 $project , 发布jar")
+            println("当前模块 $project , 发布jar, $enableLocalMaven")
             if (enableLocalMaven) {
                 // 本地测试配置
                 publications {

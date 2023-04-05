@@ -1,6 +1,5 @@
 // 发布配置 https://developer.android.google.cn/studio/build/maven-publish-plugin?hl=en#groovy
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
 // 不使用缓存，使用仓库中最新的包
 configurations.all {
@@ -37,23 +36,10 @@ println("===> groupId: $_groupId ,groupName $_groupName ,artifactId: $_artifactI
 
 // ----------------------- 扩展方法
 
-def plugins = project.getPlugins()
-// java插件
-def hasJavaPlugin = {
-    if (plugins.hasPlugin("java-library") || plugins.hasPlugin('java')) {
-        println "===> Java"
-        return true
-    }
-    return false
-}
 // android插件
-def hasAndroidPlugin = {
-    if (plugins.hasPlugin("com.android.library")) {
-        println "===> Android"
-        return true
-    }
-    return false
-}
+def hasAndroidPlugin = plugins.hasPlugin("com.android.library")
+// java插件
+def hasJavaPlugin = plugins.hasPlugin("java-library") || plugins.hasPlugin('java')
 
 // 快照版本，则为本地maven
 def isSnapshot = {
@@ -69,18 +55,10 @@ def enableLocalMaven = {
 println("===> 版本号 $_version $isSnapshot")
 println("===> 是否开启本地maven $enableLocalMaven $_localPath")
 
-if (hasJavaPlugin) {
-    java {
-        withJavadocJar()
-        withSourcesJar()
-    }
-}
-
 // -----------------------
 
-
 task sourceJar(type: Jar) {
-    if (hasAndroidPlugin()) {
+    if (hasAndroidPlugin) {
         task javadoc(type: Javadoc) {
             source = android.sourceSets.main.java.source
             classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
@@ -96,7 +74,7 @@ task sourceJar(type: Jar) {
             archiveClassifier = 'sources'
             from android.sourceSets.main.java.source
         }
-    } else if (hasJavaPlugin()) {
+    } else if (hasJavaPlugin) {
         task javadocJar(type: Jar, dependsOn: javadoc) {
             archiveClassifier = 'javadoc'
             from javadoc.destinationDir
@@ -117,11 +95,17 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
+// 控制台中文设置UTF-8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
 // ----------------------- 发布maven配置
 
 afterEvaluate {
     publishing {
-        if (hasAndroidPlugin || _packaging == 'aar') {
+        if (hasAndroidPlugin) {
+            println("当前模块 $project , 发布aar")
             if (enableLocalMaven) {
                 // 本地测试配置
                 // 发布配置
@@ -150,6 +134,7 @@ afterEvaluate {
                 }
             }
         } else if (hasJavaPlugin || _packaging == 'jar') {
+            println("当前模块 $project , 发布jar")
             if (enableLocalMaven) {
                 // 本地测试配置
                 publications {

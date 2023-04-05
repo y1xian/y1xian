@@ -2,6 +2,14 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
+// 不使用缓存，使用仓库中最新的包
+configurations.all {
+    // 动态版本 x.x.+
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    //  变化版本 x.x.x
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 // ----------------------- 在gradle.properties下配置
 
 // POM_GROUP_ID
@@ -29,9 +37,11 @@ println("===> groupId: $_groupId ,groupName $_groupName ,artifactId: $_artifactI
 
 // ----------------------- 扩展方法
 
+def plugins = project.getPlugins()
 // java插件
 def hasJavaPlugin = {
     if (plugins.hasPlugin("java-library") || plugins.hasPlugin('java')) {
+        println "===> Java"
         return true
     }
     return false
@@ -39,6 +49,7 @@ def hasJavaPlugin = {
 // android插件
 def hasAndroidPlugin = {
     if (plugins.hasPlugin("com.android.library")) {
+        println "===> Android"
         return true
     }
     return false
@@ -67,12 +78,43 @@ if (hasJavaPlugin) {
 
 // -----------------------
 
-// 不使用缓存，使用仓库中最新的包
-configurations.all {
-    // 动态版本 x.x.+
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-    //  变化版本 x.x.x
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+
+task sourceJar(type: Jar) {
+    if (hasAndroidPlugin()) {
+        task javadoc(type: Javadoc) {
+            source = android.sourceSets.main.java.source
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+            failOnError false
+        }
+
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            archiveClassifier = 'javadoc'
+            from javadoc.destinationDir
+        }
+
+        task sourcesJar(type: Jar) {
+            archiveClassifier = 'sources'
+            from android.sourceSets.main.java.source
+        }
+    } else if (hasJavaPlugin()) {
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            archiveClassifier = 'javadoc'
+            from javadoc.destinationDir
+        }
+
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            archiveClassifier = 'sources'
+            from sourceSets.main.allSource
+        }
+    }
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
 }
 
 // ----------------------- 发布maven配置

@@ -17,7 +17,7 @@ Here are some ideas to get you started:
 
 
 
-### 平平无奇的Android开发仔
+### 弃坑的开发仔
 
 ---
 
